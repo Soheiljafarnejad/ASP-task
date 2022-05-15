@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import DataGroup from "./components/DataGroup";
+import SelectDataGroup from "./components/SelectDataGroup";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "./redux/asyncReducer";
+import { addDataGroup } from "./redux/dataReducer";
+const App = () => {
+  const dispatch = useDispatch();
 
-function App() {
+  const { data } = useSelector((state) => state.async);
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(addDataGroup(data));
+  }, [data, dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className="bg-white h-screen grid grid-cols-12 p-16 gap-4">
+      <DataGroup />
+      <SelectDataGroup />
+    </section>
   );
-}
+};
 
 export default App;
